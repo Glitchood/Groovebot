@@ -1,17 +1,7 @@
 
 import spotipy
 import os
-import warnings
 from spotipy.oauth2 import SpotifyClientCredentials
-
-import warnings
-
-def fxn():
-    warnings.warn("deprecated", DeprecationWarning)
-
-with warnings.catch_warnings():
-    warnings.simplefilter("ignore")
-    fxn()
 
 def shareTrack(artist_name, track_name):
   spotify = spotipy.Spotify(auth_manager=SpotifyClientCredentials())
