@@ -4,6 +4,7 @@ from datetime import datetime as dt
 from datetime import timezone as tz
 from termcolor import colored
 
+import warnings
 import discord
 import inflect
 import spotipy
@@ -14,6 +15,8 @@ from spotipy.oauth2 import SpotifyClientCredentials
 import database
 import keep_alive
 import spotipy_integ
+
+warnings.filterwarnings("ignore")
 
 bot_token = os.environ['DISCORD_BOT_SECRET']
 intents = discord.Intents.default()

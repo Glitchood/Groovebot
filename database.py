@@ -47,10 +47,13 @@ def write_db_w_insert(db_file_name, data_base, field_names, new_row, insert_idx)
   #db_len = len(top_songs_db)
   #dict(sorted(top_songs_db.items(), key='shares'))
 
+
 def get_top_songs(db_file_name):
   db_size, fieldnames, song_recommend_db = read_db(db_file_name)
   new_dictionary_arry = []
+  # convert from db to array
   for key, items in song_recommend_db.items():
+    items['shares'] = int(items['shares'])
     new_dictionary_arry.append(items)
   top_songs_dictionary_arry = sorted(new_dictionary_arry, key=itemgetter('shares'), reverse = True)
   # for items in top_songs_dictionary_arry:
