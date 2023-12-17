@@ -1,2 +1,10 @@
-# Groovebot
-**GrooveBot** is a Discord bot that brings the joy of sharing songs directly to servers! Integrating Spotify and slash commands seamlessly into one product, this is the go-to application for all your peer-to-peer song sharing needs.
+<img src="Groovebot_Logo.png" align="right" />
+
+# Groovebot [![License](https://img.shields.io/badge/License-Apache%202.0-blue?style=for-the-badge)](https://opensource.org/licenses/Apache-2.0)![Version](https://img.shields.io/badge/Version-1-blue?style=for-the-badge)
+
+A Discord bot that brings sharing songs directly into Discord servers, using Spotify and slash commands.
+
+
+## License
+
+**[Apache-2.0](https://choosealicense.com/licenses/apache-2.0/)**
