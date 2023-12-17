@@ -1,6 +1,6 @@
-<img src="[Groovebot_Logo.png](https://github.com/Glitchood101/Groovebot/blob/main/GrooveBot_Logo.png)" align="right" />
+<img src="https://github.com/Glitchood101/Groovebot/blob/main/GrooveBot_Logo.png" align="right" />
 
-# Groovebot [![License](https://img.shields.io/badge/License-Apache%202.0-blue?style=for-the-badge)](https://opensource.org/licenses/Apache-2.0)![Version](https://img.shields.io/badge/Version-1-blue?style=for-the-badge)
+# Groovebot [![License](https://img.shields.io/badge/License-Apache%202.0-blue?style=for-the-badge)](https://opensource.org/licenses/Apache-2.0) ![Version](https://img.shields.io/badge/Version-1-blue?style=for-the-badge)
 
 A Discord bot that brings sharing songs directly into Discord servers, using Spotify and slash commands.
 
