@@ -41,6 +41,10 @@ async def cmd(command, username, params=None):
   params_text = colored(f'{params}', 'green')
   print(f'\n{timestamp_text} {cmd_text}   {user_text}   {params_text}')
 
+async def cmdlink(link):
+  link_text = colored(f'{link}', 'light_cyan', attrs=['underline'])
+  print(f'{link_text}')
+
 
 @client.event
 async def on_ready():
@@ -72,10 +76,14 @@ async def test(ctx):
 
 @client.tree.command(name="ping")
 async def ping(interaction: discord.Interaction):
-  username = interaction.user.display_name
+  displayname = interaction.user.display_name
+  username = interaction.user.name
   await cmd(interaction.command.name,username)
   await interaction.response.send_message(f"Pong, {interaction.user.mention}!")
-
+  
+  # Get the link to the interaction
+  interaction_link = f"https://discord.com/channels/{interaction.guild.id}/{interaction.channel_id}/{interaction.id}"
+  await cmdlink(interaction_link)
 
 # ADD EXTRA INFO PER COMMAND USING HELP GROUP
 # @client.command(aliases=['commands'])
@@ -96,6 +104,9 @@ async def say(interaction: discord.Interaction, thing_to_say: str = 'hi'):
   await cmd(interaction.command.name,username,params)
   await interaction.response.send_message(
       f"{username} said '{thing_to_say}'")
+  # Get the link to the interaction
+  interaction_link = f"https://discord.com/channels/{interaction.guild.id}/{interaction.channel_id}/{interaction.id}"
+  await cmdlink(interaction_link)
 
 
 def top_embedaddfield(embed, rank, artist, track, popularity, shares):
@@ -328,7 +339,10 @@ async def share(interaction: discord.Interaction, artist_name: str,track_name: s
     await embedFormat(interaction, query_artistName, query_trackName,query_albumName, query_releaseDate, query_popularity,query_duration, query_trackURL, query_albumImage,share_count, followup)
 
     await interaction.followup.send(f"[⠀]({query_trackURL})")
-
+    
+  # Get the link to the interaction
+  interaction_link = f"https://discord.com/channels/{interaction.guild.id}/{interaction.channel_id}/{interaction.id}"
+  await cmdlink(interaction_link)
 
 class ButtonView(discord.ui.View):
 
