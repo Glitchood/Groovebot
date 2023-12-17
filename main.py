@@ -167,6 +167,14 @@ async def showtop(ctx, num=5):
 
 async def embedFormat(interaction, artistName, trackName, albumName,releaseDate, popularity, duration, URL, image, shares,followup):
 
+  # Convert milliseconds to seconds
+  dur_secs = duration // 1000
+  # Calculate minutes and seconds
+  mins = dur_secs // 60
+  secs = dur_secs % 60
+  # Format the output as "min:sec"
+  duration = f"{mins}:{secs:02d}"
+  
   displayname = interaction.user.display_name
   avatar = interaction.user.display_avatar
   embed = discord.Embed(title=f"_{trackName}_   —    **{artistName}**",
@@ -182,7 +190,7 @@ async def embedFormat(interaction, artistName, trackName, albumName,releaseDate,
   embed.add_field(
       name="Song Information:",
       value=
-      f"```PY\n🎹 – Artist: {artistName}\n📀 – Album: {albumName}\n⏱️ – Length (ms): {duration}\n📆 – Released: {releaseDate}\n📈 – Popularity: {popularity}%\n```",
+      f"```PY\n🎹 – Artist: {artistName}\n📀 – Album: {albumName}\n⏱️ – Duration: {duration}\n📆 – Released: {releaseDate}\n📈 – Popularity: {popularity}%\n```",
       inline=True)
   embed.add_field(name="Server Statistics:",
                   value=f"```PY\n🔗 – Shares: {shares}\n```",
@@ -204,8 +212,7 @@ async def embedFormat(interaction, artistName, trackName, albumName,releaseDate,
 @client.tree.command(name='share', description='Share a song with someone!')
 @app_commands.describe(artist_name="Artist for track. If unknown, put '$'",
                        track_name="Artist for track. If unknown, put '$'")
-async def share(interaction: discord.Interaction, artist_name: str,
-                track_name: str):
+async def share(interaction: discord.Interaction, artist_name: str,track_name: str):
   username = interaction.user.name
   displayname = interaction.user.display_name
   params = f'artist_name[{artist_name}], track_name[{track_name}]'
@@ -236,13 +243,10 @@ async def share(interaction: discord.Interaction, artist_name: str,
       rank = p.number_to_words(count + 1)
       entry_track_name = tracks_found[count]
       entry_artist_name = artists_found[count]
-      results_of_item = spotify.search(q="track:" + entry_track_name +
-                                       " artist:" + entry_artist_name,
-                                       type='track',
-                                       limit=1)
+      results_of_item = spotify.search(q="track:" + entry_track_name +" artist:" + entry_artist_name,type='track',limit=1)
       items = results_of_item['tracks']['items']
       for track in items:
-        response += f"## :{rank}: \n```🎵 – Song: {track['name']}\n🎹 – Artist: {track['artists'][0]['name']}\n📀 – Album: {track['album']['name']}\n⏱️ – Length (ms): {track['duration_ms']}\n📆 – Released: {track['album']['release_date']}\n📈 – Popularity: {track['popularity']}%\n``` \n"
+        response += f"## :{rank}: \n```🎵 – Song: {track['name']}\n🎹 – Artist: {track['artists'][0]['name']}\n📀 – Album: {track['album']['name']}\n⏱️ – Duration (ms): {track['duration_ms']}\n📆 – Released: {track['album']['release_date']}\n📈 – Popularity: {track['popularity']}%\n``` \n"
     print(response)
     await interaction.response.send_message(response, ephemeral=True)
     await interaction.followup.send(view=view, ephemeral=True)
@@ -253,20 +257,13 @@ async def share(interaction: discord.Interaction, artist_name: str,
     selected_track_name = selected_track_data['name']
     selected_artist_name = selected_track_data['artists'][0]['name']
 
-    print(
-        f"\n\n TRACK={selected_track_name}\n\n ARTIST={selected_artist_name}")
+    print(f"\n\n TRACK={selected_track_name}\n\n ARTIST={selected_artist_name}")
 
-    query_artistName, query_trackName, query_albumName, query_releaseDate, query_popularity, query_duration, query_trackURL, query_albumImage, query_id = spotipy_integ.shareTrack(
-        selected_artist_name, selected_track_name)
+    query_artistName, query_trackName, query_albumName, query_releaseDate, query_popularity, query_duration, query_trackURL, query_albumImage, query_id = spotipy_integ.shareTrack(selected_artist_name, selected_track_name)
 
-    share_count = database.add_song_to_database("song_list.csv",
-                                                query_artistName,
-                                                query_trackName, query_id)
+    share_count = database.add_song_to_database("song_list.csv",query_artistName,query_trackName, query_id)
     followup = True
-    await embedFormat(interaction, query_artistName, query_trackName,
-                      query_albumName, query_releaseDate, query_popularity,
-                      query_duration, query_trackURL, query_albumImage,
-                      share_count, followup)
+    await embedFormat(interaction, query_artistName, query_trackName,query_albumName, query_releaseDate, query_popularity,query_duration, query_trackURL, query_albumImage,share_count, followup)
 
     await interaction.followup.send(f"[⠀]({query_trackURL})")
 
@@ -300,7 +297,7 @@ async def share(interaction: discord.Interaction, artist_name: str,
                                        limit=1)
       items = results_of_item['tracks']['items']
       for track in items:
-        response += f"## :{rank}: \n```🎵 – Song: {track['name']}\n🎹 – Artist: {track['artists'][0]['name']}\n📀 – Album: {track['album']['name']}\n⏱️ – Length (ms): {track['duration_ms']}\n📆 – Released: {track['album']['release_date']}\n📈 – Popularity: {track['popularity']}%\n``` \n"
+        response += f"## :{rank}: \n```🎵 – Song: {track['name']}\n🎹 – Artist: {track['artists'][0]['name']}\n📀 – Album: {track['album']['name']}\n⏱️ – Duration (ms): {track['duration_ms']}\n📆 – Released: {track['album']['release_date']}\n📈 – Popularity: {track['popularity']}%\n``` \n"
     print(response)
     await interaction.response.send_message(response, ephemeral=True)
     await interaction.followup.send(view=view, ephemeral=True)
@@ -317,29 +314,18 @@ async def share(interaction: discord.Interaction, artist_name: str,
     query_artistName, query_trackName, query_albumName, query_releaseDate, query_popularity, query_duration, query_trackURL, query_albumImage, query_id = spotipy_integ.shareTrack(
         selected_artist_name, selected_track_name)
 
-    share_count = database.add_song_to_database("song_list.csv",
-                                                query_artistName,
-                                                query_trackName, query_id)
+    share_count = database.add_song_to_database("song_list.csv",query_artistName,query_trackName,query_id)
     followup = True
-    await embedFormat(interaction, query_artistName, query_trackName,
-                      query_albumName, query_releaseDate, query_popularity,
-                      query_duration, query_trackURL, query_albumImage,
-                      share_count, followup)
+    await embedFormat(interaction, query_artistName, query_trackName,query_albumName, query_releaseDate, query_popularity,query_duration, query_trackURL, query_albumImage,share_count, followup)
 
     await interaction.followup.send(f"[⠀]({query_trackURL})")
 
   else:
-    query_artistName, query_trackName, query_albumName, query_releaseDate, query_popularity, query_duration, query_trackURL, query_albumImage, query_id = spotipy_integ.shareTrack(
-        artist_name, track_name)
-
-    share_count = database.add_song_to_database("song_list.csv",
-                                                query_artistName,
-                                                query_trackName, query_id)
+    query_artistName, query_trackName, query_albumName, query_releaseDate, query_popularity, query_duration, query_trackURL, query_albumImage, query_id = spotipy_integ.shareTrack(artist_name, track_name)
+    
+    share_count = database.add_song_to_database("song_list.csv",query_artistName,query_trackName, query_id)
     followup = False
-    await embedFormat(interaction, query_artistName, query_trackName,
-                      query_albumName, query_releaseDate, query_popularity,
-                      query_duration, query_trackURL, query_albumImage,
-                      share_count, followup)
+    await embedFormat(interaction, query_artistName, query_trackName,query_albumName, query_releaseDate, query_popularity,query_duration, query_trackURL, query_albumImage,share_count, followup)
 
     await interaction.followup.send(f"[⠀]({query_trackURL})")
 

@@ -1,6 +1,5 @@
 
 import spotipy
-import os
 from spotipy.oauth2 import SpotifyClientCredentials
 
 def shareTrack(artist_name, track_name):
