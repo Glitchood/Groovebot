@@ -31,15 +31,20 @@ client = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 # params = f'param1[{param1}]'
 # await cmd(interaction.command.name,username,params)
 
-async def cmd(command, username, params=None):
+async def cmd(cmd, username, params=None):
   date_time = dt.now()
   date_time = date_time.replace(microsecond=0)
-  command = command.upper()
+  cmd = cmd.upper()
   timestamp_text = colored(f'{date_time}', 'grey', attrs=['bold'])
-  cmd_text = colored(f'{command}', 'light_blue', attrs=['bold'])
+  cmd_text = colored(f'{cmd}', 'light_blue', attrs=['bold'])
   user_text = colored(f'{username}', 'magenta')
   params_text = colored(f'{params}', 'green')
   print(f'\n{timestamp_text} {cmd_text}   {user_text}   {params_text}')
+
+# USAGE OF cmdlink() 🔽
+# (DO AT BOTTOM OF COMMAND)
+# interaction_link = f"https://discord.com/channels/{interaction.guild.id}/{interaction.channel_id}/{interaction.id}"
+# await cmdlink(interaction_link)
 
 async def cmdlink(link):
   link_text = colored(f'{link}', 'light_cyan', attrs=['underline'])
@@ -62,16 +67,19 @@ async def on_ready():
     print(e)
 
 
-@client.command(aliases=['t'])
-async def test(ctx):
-  username = ctx.message.author.name
-  if (not ctx.author.guild_permissions.administrator):
-    await ctx.send('``You do not have the necessary perms!``')
-    return
-  # code below 🔽🔽🔽
-  await ctx.send('`RECIEVED`')
-  await cmd(test,username)
-  await ctx.send('`COMPLETE`')
+@client.tree.command(name="test")
+@commands.has_permissions(administrator = True)
+async def test(interaction: discord.Interaction):
+  username = interaction.user.name
+  # if (not ctx.author.guild_permissions.administrator):
+  #   await ctx.send('``You do not have the necessary perms!``')
+  #   return
+  # # code below 🔽🔽🔽
+  await interaction.response.send_message('`RECIEVED`')
+  await cmd(interaction.command.name,username)
+  await interaction.followup.send('`COMPLETE`')
+  interaction_link = f"https://discord.com/channels/{interaction.guild.id}/{interaction.channel_id}/{interaction.id}"
+  await cmdlink(interaction_link)
 
 
 @client.tree.command(name="ping")
@@ -116,18 +124,19 @@ def top_embedaddfield(embed, rank, artist, track, popularity, shares):
       inline=False)
 
 
-@client.command(name="showtop")
-async def showtop(ctx, num=5):
-  username = ctx.message.author.name
-  displayname = ctx.message.author.display_name
+@client.tree.command(name="showtop")
+@app_commands.describe(num="Number of listed songs (max 20)")
+async def showtop(interaction: discord.Interaction, num: int = 5):
+  username = interaction.user.name
+  displayname = interaction.user.display_name
   params = f'num[{num}]'
-  await cmd(ctx.command.name,username,params)
+  await cmd(interaction.command.name,username,params)
   if num > 20:
-    await ctx.send('``Can not have more than 20 fields. :(``')
+    await interaction.response.send_message('``Can not have more than 20 fields. :(``')
   else:
-    await ctx.send('``Loading...``')
+    await interaction.response.defer()
     top_songs = database.get_top_songs("song_list.csv")
-    embed = discord.Embed(title="Top Songs in **Music Community**",
+    embed = discord.Embed(title=f"Top Songs in **{interaction.guild}**",
                           colour=0x00b0f4,
                           timestamp=dt.now())
     embed.set_author(
@@ -173,8 +182,9 @@ async def showtop(ctx, num=5):
         "https://cdn-0.emojis.wiki/emoji-pics/microsoft/counterclockwise-arrows-button-microsoft.png"
     )
 
-    await ctx.send(embed=embed)
-
+    await interaction.followup.send(embed=embed)
+  interaction_link = f"https://discord.com/channels/{interaction.guild.id}/{interaction.channel_id}/{interaction.id}"
+  await cmdlink(interaction_link)
 
 async def embedFormat(interaction, artistName, trackName, albumName,releaseDate, popularity, duration, URL, image, shares,followup):
 
