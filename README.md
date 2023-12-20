@@ -2,6 +2,7 @@
 
 # Groovebot 
 ![Version](https://img.shields.io/badge/Version-1-blue?style=for-the-badge)
+![Last-Commit](https://img.shields.io/github/last-commit/Glitchood101/Groovebot/main?style=for-the-badge)
 
 A Discord bot that brings sharing songs directly into Discord servers, using Spotify and slash commands.
 
