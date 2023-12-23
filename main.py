@@ -30,7 +30,7 @@ client = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 # username = interaction.user.name
 # params = f'param1[{param1}]'
 # await cmd(interaction.command.name,username,params)
-
+# hello
 async def cmd(cmd, username, params=None):
   date_time = dt.now()
   date_time = date_time.replace(microsecond=0)
