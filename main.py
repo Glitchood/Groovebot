@@ -79,7 +79,7 @@ async def gen_embed(interaction,top_songs,embed, num_start: int, num_fields: int
     top_artistname = top_songs[i]['artist']
     top_trackname = top_songs[i]['track']
     top_shares = top_songs[i]['shares']
-    top_popularity = 10
+    id = top_songs[i]['id']
     rank += 1
     spotify = spotipy.Spotify(auth_manager=SpotifyClientCredentials())
     results = spotify.search(q="track:" + top_trackname + " artist:" +
@@ -91,9 +91,8 @@ async def gen_embed(interaction,top_songs,embed, num_start: int, num_fields: int
     for track in items:
       count += 1
       top_popularity = track['popularity']
-
-    top_embedaddfield(embed, rank, top_artistname, top_trackname,
-                      top_popularity, top_shares)
+    link = f'https://open.spotify.com/track/{id}'
+    top_embedaddfield(embed, rank, top_artistname, top_trackname,top_popularity, top_shares, link)
     
     
 
@@ -124,7 +123,7 @@ async def showtop(interaction: discord.Interaction, pages: int=2,rows: int=5):
       "https://cdn-0.emojis.wiki/emoji-pics/microsoft/musical-keyboard-microsoft.png"
   )
 
-  menu = ViewMenu(interaction, menu_type=ViewMenu.TypeEmbed, wrap_in_codeblock='asci')
+  menu = ViewMenu(interaction, menu_type=ViewMenu.TypeEmbed)
   num = 0
   start_field = 1
   i = 1
@@ -178,6 +177,13 @@ async def ping(interaction: discord.Interaction):
   username = interaction.user.name
   await cmd(interaction.command.name,username)
   await interaction.response.send_message(f"Pong, {interaction.user.mention}!")
+
+@client.tree.command(name="test")
+async def test(interaction: discord.Interaction):
+  displayname = interaction.user.display_name
+  username = interaction.user.name
+  await cmd(interaction.command.name,username)
+  await interaction.response.defer()
   
   # Get the link to the interaction
   interaction_link = f"https://discord.com/channels/{interaction.guild.id}/{interaction.channel_id}/{interaction.id}"
@@ -207,10 +213,14 @@ async def say(interaction: discord.Interaction, thing_to_say: str = 'hi'):
   await cmdlink(interaction_link)
 
 
-def top_embedaddfield(embed, rank, artist, track, popularity, shares): 
+def top_embedaddfield(embed, rank, artist, track, popularity, shares, link): 
+  hyperlink = f'[{track}]({link})'
+  embed.add_field(name="",
+  value=f"**\n{rank}.⠀__{hyperlink}__    —    `{artist}`**",
+  inline=False)
   embed.add_field(
-      name=f"**{rank}.   __{track}__    —    `{artist}`**",
-      value=f"```ansi\n📈 – \033[37;49;1m Popularity:\033[0m {popularity}%\n🔗 – \033[37;49;1m Shares:\033[0m {shares}\n```",
+      name=f"",
+      value=f"```ansi\n📈 – \033[37;49;1m Popularity:\033[0m {popularity}%\n⤴️ – \033[37;49;1m Shares:\033[0m {shares}\n```\n",
       inline=False)
 
 async def embedFormat(interaction, artistName, trackName, albumName,releaseDate, popularity, duration, URL, image, shares,followup):
