@@ -1,11 +1,11 @@
-from flask import Flask
+from flask import Flask, render_template
 from threading import Thread
 
 app = Flask('Groovebot')
 
 @app.route('/')
 def home():
-    return "GrooveBot alive"
+  return "<h1>GrooveBot Online!</h1>"
 
 def run():
   app.run(host='0.0.0.0',port=8080)

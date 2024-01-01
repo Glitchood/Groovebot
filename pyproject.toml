@@ -16,6 +16,7 @@ termcolor = "^2.4.0"
 utils = "^1.0.1"
 edx-opaque-keys = "^2.5.1"
 django-pagination = "^1.0.7"
+discord-py = "^2.3.2"
 
 [tool.pyright]
 # https://github.com/microsoft/pyright/blob/main/docs/configuration.md
