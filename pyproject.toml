@@ -17,6 +17,9 @@ utils = "^1.0.1"
 edx-opaque-keys = "^2.5.1"
 django-pagination = "^1.0.7"
 discord-py = "^2.3.2"
+requests = "^2.31.0"
+zenora = "^0.0.3.post1"
+app = "^0.0.1"
 
 [tool.pyright]
 # https://github.com/microsoft/pyright/blob/main/docs/configuration.md

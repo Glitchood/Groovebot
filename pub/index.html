@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Groovebot</title>
+    <link
+      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/x-icon" href="https://cdn-0.emojis.wiki/emoji-pics/microsoft/musical-keyboard-microsoft.png">
+    <style>
+      mark {
+        background: linear-gradient(to right, rgba(59, 130, 246, 0.8), rgba(59, 130, 246, 0.8));
+        background-repeat: no-repeat;
+        background-size: 100% 20%; /* Initial background size */
+        background-position: 0 80%;
+        transition: background-size 0.3s ease; /* Transition effect */
+      }
+
+      /* Change background size on hover */
+      mark:hover {
+        background-size: 100% 60%; /* Increased background size on hover */
+      }
+
+      #groovebot-header {
+        margin-top: 10px; /* Adjust the margin as needed */
+      }
+
+      button {
+        transition: transform 0.3s ease;
+        color: rgba(59,130,246);
+        padding: 14px 26px; /* Increased padding for more spacing */
+        margin: 6px; /* Adjusted margin for more space around the button text */
+      }
+
+      button:hover {
+        background-color: #04AA6D;
+        color: white;
+        transition: background-color 0.3s ease; /* Transition for hover color change */
+      }
+
+      button:active {
+        transform: translateY(3px);
+      }
+      
+      button:focus:not(:active) {
+        transform: translateY(0);
+        transition: transform 0.3s ease; /* Smooth transition when returning to default state */
+      }
+    </style>
+  </head>
+  <body class="overflow-hidden">
+    <div class="flex items-center justify-center h-screen">
+      {% if not user %}
+      <div class="text-center flex flex-col items-center">
+        <img
+          src="https://cdn-0.emojis.wiki/emoji-pics/microsoft/musical-keyboard-microsoft.png"
+          alt="Groovebot Logo"
+          width="150"
+        />
+        <h1 class="font-bold text-6xl mb-2" id="groovebot-header"><mark>Groovebot</mark></h1>
+        <h1 class="text-3xl mb-8"><em>A Discord song sharing application</em></h1>
+        <a href="/login">
+          <button
+            class="
+              bg-white
+              border-2
+              border-blue-500
+              hover:bg-blue-500
+              font-bold
+              py-2
+              px-4
+              rounded
+            "
+          >
+            Log In
+          </button>
+        </a>
+      </div>
+      {% else %}
+      <div>
+        <div>
+          <img
+            src="{{user.avatar_url}}"
+            class="rounded-full border-4 border-blue-500"
+            width="200"
+          />
+        </div>
+        <div class="mt-5 container mx-auto">
+          <h1 class="font-medium text-center text-2xl">
+            Logged in as
+          </h1>
+          <h1 class="text-center font-bold text-3xl">
+            {{user.username}}#{{user.discriminator}}
+          </h1>
+
+          <div class="mt-3 margin">
+            <h1>ID: {{user.id}}</h1>
+          </div>
+          <div class="mt-5 text-center">
+            <a href="/logout" class="">
+              <button
+                class="
+                  bg-white
+                  border-2
+                  border-blue-500
+                  hover:bg-blue-500
+                  font-bold
+                  py-2
+                  px-4
+                  rounded
+                "
+              >
+                Log Out
+              </button></a>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      <div
+        class="
+          absolute
+          transform
+          -rotate-12
+          hover:scale-110
+          transition
+          duration-500
+          ease-in-out
+        "
+        style="bottom: -22.5px; right: -22.5px"
+      >
+        <a
+          href="https://github.com/glitchood/groovebot"
+          target="_blank"
+          rel="noopener noreferrer"
+          ><img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/2048px-Octicons-mark-github.svg.png"
+            alt=""
+            width="150"
+        /></a>
+      </div>
+      <div class="absolute bottom-0 mb-5 text-gray-600">
+        <a href="https://github.com/glitchood/" id="copyright"></a>
+      </div>
+    </div>
+    <script>
+      const copyrightElm = document.querySelector("#copyright");
+
+      copyrightElm.innerHTML = `© Glitchood ${new Date().getFullYear()}`;
+    </script>
+  </body>
+</html>

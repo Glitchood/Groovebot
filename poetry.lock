@@ -134,6 +134,16 @@ files = [
 ]
 
 [[package]]
+name = "app"
+version = "0.0.1"
+description = "a simple egg"
+optional = false
+python-versions = "*"
+files = [
+    {file = "app-0.0.1.zip", hash = "sha256:214549e746d777292d807eec7713c2cea332e08e037c923cd61ee1d5ab7a127f"},
+]
+
+[[package]]
 name = "async-timeout"
 version = "4.0.3"
 description = "Timeout context manager for asyncio programs"
@@ -1234,7 +1244,21 @@ files = [
 idna = ">=2.0"
 multidict = ">=4.0"
 
+[[package]]
+name = "zenora"
+version = "0.0.3.post1"
+description = "A simple to use synchronous Discord REST API wrapper for Python"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "Zenora-0.0.3.post1-py3-none-any.whl", hash = "sha256:3e0d0e10e86f7911ca3f4cfc79cabb2b1b7a3abc78934dc9026edd79b8f8076a"},
+]
+
+[package.dependencies]
+attrs = "*"
+requests = "*"
+
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10.0,<3.11"
-content-hash = "9cb81eb08d7b04f2b68a76e64e14db6b3aed5560371bb0cd4179f78e271c237d"
+content-hash = "e87d02361443023dcff7cc5c10208fa1aac6662e1ab47fc1e7512a30d422df2d"
