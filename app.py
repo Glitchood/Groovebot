@@ -23,7 +23,7 @@ def home():
 
     bearer_client = APIClient(access_token, bearer=True)
     current_user = bearer_client.users.get_current_user()
-
+    print(current_user.discriminator)
     return render_template("index.html", user=current_user)
 
 
