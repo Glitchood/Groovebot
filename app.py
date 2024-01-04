@@ -8,7 +8,7 @@ CLIENT_SECRET = os.environ['CLIENT_SECRET']
 OAUTH_URL = os.environ['OAUTH_URL']
 REDIRECT_URI = os.environ['REDIRECT_URI']
 
-app = Flask(__name__, template_folder='/pub')
+app = Flask(__name__)
 client = APIClient(BOT_TOKEN, client_secret=CLIENT_SECRET)
 
 app.config["SECRET_KEY"] = "verysecret69"
@@ -51,6 +51,9 @@ def oauth_callback():
 
 def run():
   app.run(host='0.0.0.0',port=8080)
+
+if __name__ == "__main__":
+  app.run(debug=True, host='0.0.0.0')
 
 def keep_alive():
     t = Thread(target=run)
