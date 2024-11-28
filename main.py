@@ -3,6 +3,8 @@ import os
 from datetime import datetime as dt
 from termcolor import colored
 
+
+from dotenv import load_dotenv
 import discord
 import inflect
 import spotipy
@@ -22,10 +24,11 @@ client = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
 client.remove_command("help")
 
-BOT_TOKEN = os.environ['CLIENT_TOKEN']
-CLIENT_SECRET = os.environ['CLIENT_SECRET']
-OAUTH_URL = os.environ['OAUTH_URL']
-REDIRECT_URI = os.environ['REDIRECT_URI']
+load_dotenv()
+BOT_TOKEN = os.getenv('CLIENT_TOKEN')
+CLIENT_SECRET = os.getenv('CLIENT_SECRET')
+OAUTH_URL = os.getenv('OAUTH_URL')
+REDIRECT_URI = os.getenv('REDIRECT_URI')
 
 # USAGE OF cmd() 🔽
 # username = interaction.user.name

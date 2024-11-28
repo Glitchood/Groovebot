@@ -2,12 +2,14 @@ import os
 from flask import Flask, render_template, request, redirect, session
 from zenora import APIClient
 from threading import Thread
+from dotenv import load_dotenv
 
-BOT_TOKEN = os.environ['CLIENT_TOKEN']
-CLIENT_SECRET = os.environ['CLIENT_SECRET']
-OAUTH_URL = os.environ['OAUTH_URL']
-REDIRECT_URI = os.environ['REDIRECT_URI']
+load_dotenv()
 
+BOT_TOKEN = os.getenv('CLIENT_TOKEN')
+CLIENT_SECRET = os.getenv('CLIENT_SECRET')
+OAUTH_URL = os.getenv('OAUTH_URL')
+REDIRECT_URI = os.getenv('REDIRECT_URI')
 app = Flask(__name__)
 client = APIClient(BOT_TOKEN, client_secret=CLIENT_SECRET)
 
