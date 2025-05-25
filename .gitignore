@@ -1,5 +1,6 @@
 # Custom
 .vscode/
+.local/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -86,7 +87,6 @@ celerybeat-schedule
 .env
 
 # virtualenv
-.local
 .venv
 venv/
 ENV/
